@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Dashboard from "./admin/Dashboard";
 import QuizSetEntryPage from "./admin/QuizSetEntryPage";
 import QuizSetPage from "./admin/QuizSetPage";
@@ -15,7 +15,6 @@ import PrivateRoutes from "./routes/PrivateRoutes";
 
 function App() {
   return (
-    <Router>
       <div>
         <Routes>
 
@@ -48,7 +47,6 @@ function App() {
           />
         </Routes>
       </div>
-    </Router>
   )
 }
 
