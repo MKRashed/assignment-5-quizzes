@@ -13,7 +13,7 @@ function App() {
       <Route element={<PrivateRoutes />}>
         <Route element={<Home />} path="/" exact />
         <Route element={<Result />} path="/result" />
-        <Route element={<QuizDetails />} path="/quiz-details" />
+        <Route path="/quiz-details/:quizId" element={<QuizDetails />} />
       </Route>
       <Route element={<Login />} path="/login" />
       <Route element={<Registration />} path="/register" />
