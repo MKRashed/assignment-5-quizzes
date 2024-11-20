@@ -1,52 +1,25 @@
 import { Route, Routes } from "react-router-dom";
-import Dashboard from "./admin/Dashboard";
-import QuizSetEntryPage from "./admin/QuizSetEntryPage";
-import QuizSetPage from "./admin/QuizSetPage";
-import HomePage from "./HomePage";
-import LeaderBoard from "./LeaderBoard";
-import Home from "./page/Home";
+import Home from "./HomePage";
 import Login from "./page/Login";
-import Register from "./page/Register";
-import Reset from "./page/Reset";
-import QuizDetails from "./QuizDetails";
-import Result from "./Result";
-import AdminRoutes from "./routes/AdminRoutes";
+import Registration from "./page/Register";
 import PrivateRoutes from "./routes/PrivateRoutes";
+import Result from "./Result";
+import QuizDetails from "./QuizDetails";
 
 function App() {
   return (
-      <div>
-        <Routes>
-
-          <Route element={<PrivateRoutes />}>
-            <Route path="/home"  element={<Home />} />
-            <Route path="/quiz-details" element={<QuizDetails />} />
-            <Route path="/result" element={<Result />} />
-            <Route path="/leader-board" element={<LeaderBoard/> } />
-          </Route>
-
-          <Route path="/admin/" element={<AdminRoutes/>} >
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="quiz-set" element={<QuizSetPage />} />
-            <Route path="quiz-set-entry" element={<QuizSetEntryPage />} />
-          </Route>
-
-          <Route path="/"  element={<HomePage />}/>
-          
-          <Route 
-            path="/login" 
-            element={<Login />} 
-          />
-          <Route 
-            path="/register" 
-            element={<Register />} 
-          />
-          <Route 
-            path="/reset" 
-            element={<Reset />} 
-          />
-        </Routes>
-      </div>
+    <>
+    <Routes>
+      <Route element={<PrivateRoutes />}>
+        <Route element={<Home />} path="/" exact />
+        <Route element={<Result />} path="/result" />
+        <Route element={<QuizDetails />} path="/quiz-details" />
+      </Route>
+      <Route element={<Login />} path="/login" />
+      <Route element={<Registration />} path="/register" />
+      {/* <Route element={<NotFoundPage />} path="*" /> */}
+    </Routes>
+  </>
   )
 }
 

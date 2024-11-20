@@ -1,17 +1,24 @@
-import { useAuthState } from "react-firebase-hooks/auth";
 import { Navigate, Outlet } from "react-router-dom";
-import { auth } from "../firebase";
+import { useAuth } from "../hooks/useAuth";
 
 const PrivateRoutes = () => {
-    const [user, loading, error] = useAuthState(auth);
-    if(loading) return <p>Loading user data...</p>;
-    if(error) return <p>Error: {error.message}</p>;
+    const { auth } = useAuth();
 
     return (
         <>
-         { user ? <Outlet/>: <Navigate to="/login" />}
+            {auth.authToken ? (
+                <>
+                    <main className="mx-auto max-w-[1020px] py-8">
+                        <div className="container">
+                            <Outlet />
+                        </div>
+                    </main>
+                </>
+            ) : (
+                <Navigate to="/login" />
+            )}
         </>
-    )
-}
+    );
+};
 
 export default PrivateRoutes;

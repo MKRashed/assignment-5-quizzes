@@ -1,33 +1,58 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Saly from '../assets/Saly-1.png';
 import Logo from "../assets/logo.svg";
-import { loginWithEmailAndPassword, signInWithGoogle } from '../firebase';
+import { useAuth } from "../hooks/useAuth";
+
 
 export default function Login(){
+
+    const {setAuth} = useAuth();
+
     const [email, setEmail] = useState('');
+
     const [password, setPassword] = useState('');
+
     const navigate = useNavigate();
 
-    const handleSubmit = async(event) => {
+    const handleSubmit = async (event) => {
+
         event.preventDefault();
-        try {
-            const user = await loginWithEmailAndPassword(email, password);
-            navigate('/home');
-        } catch (err) {
-            console.log({err})
+
+        const formData = {
+            email: email,
+            password: password
+        }
+
+        try{
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_BASE_URL}/auth/login`, formData);
+
+            
+            if (response.status === 200) {
+                const { tokens, user } = response.data.data;
+                console.log({tokens, user}, response.data.data);
+              if (tokens) {
+                const authToken = tokens.accessToken;
+                const refreshToken = tokens.refreshToken;
+      
+                console.log(`Login time auth token: ${authToken}`);
+
+                setAuth({user, authToken, refreshToken});
+      
+                navigate("/");
+              }
+            }
+          } catch(error){
+            console.error(error);
+            // setError("root.random", {
+            //   type: "random",
+            //   message:`User with email ${formData.email} is not found`,
+            // })
         }
     }
 
-    const handleGoogleLogin = async() => {
-        try {
-            const user = await signInWithGoogle();
-            navigate('/home');
-         } 
-        catch (err) {
-            console.log({err})
-         }
-    }
+   
 
     return (
         <div className="bg-white text-gray-800 overflow-hidden">
@@ -87,10 +112,6 @@ export default function Login(){
                         onClick={handleSubmit} 
                         className="w-full bg-primary text-white py-3 rounded-lg mb-4">Sign in</button>
 
-                        <button 
-                        type="button"
-                        onClick={handleGoogleLogin} 
-                        className="w-full bg-blue-500 text-white py-3 rounded-lg mb-4">Sign in with Google</button>
                     </form>
 
                     <div className="text-center">
