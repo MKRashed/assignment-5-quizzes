@@ -2,9 +2,9 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./HomePage";
 import Login from "./page/Login";
 import Registration from "./page/Register";
-import PrivateRoutes from "./routes/PrivateRoutes";
-import Result from "./Result";
 import QuizDetails from "./QuizDetails";
+import Result from "./Result";
+import PrivateRoutes from "./routes/PrivateRoutes";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
     <Routes>
       <Route element={<PrivateRoutes />}>
         <Route element={<Home />} path="/" exact />
-        <Route element={<Result />} path="/result" />
+        <Route element={<Result />} path="/result/:quizId" />
         <Route path="/quiz-details/:quizId" element={<QuizDetails />} />
       </Route>
       <Route element={<Login />} path="/login" />

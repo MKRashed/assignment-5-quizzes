@@ -3,24 +3,48 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import LogoWhite from '../assets/logo-white.svg';
 import Logo from "../assets/logo.svg";
 import Saly from "../assets/Saly-1.png";
-import { registerWithEmailAndPassword } from '../firebase';
+import axios from 'axios';
+
 
 export default function Register(){
-
+    
     const navigate = useNavigate();
+    const [error, setError] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirm_password, setConfirmPassword] = useState('');
 
     const handleSubmit =  async(event) => {
+        
         event.preventDefault();
-        try {
-           const user = await registerWithEmailAndPassword(email, password);
-           navigate('/login');
-           
-        } catch (err) {
-            console.error(err);
+
+        // Reset error
+        setError('');
+
+        // Validate password match
+        if (password !== confirm_password) {
+            setError('Passwords do not match');
+            return;
+        }
+
+        const formData = {
+            full_name: name,
+            email: email,
+            password: password,
+        };
+
+        try{
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_BASE_URL}/auth/register`, formData);
+
+            console.log({response});
+            
+            
+            if (response.status === 201) {
+                navigate("/login");
+            }
+          } catch(error){
+            console.error(error);
         }
     }
 
@@ -102,6 +126,10 @@ export default function Register(){
                             placeholder="Confirm Password" />
                         </div>
                     </div>
+
+                    {error && (
+                            <p className="text-red-500 text-sm mb-4">{error}</p>
+                        )}
 
                     <div className="mb-6 flex gap-2 items-center">
                         <input type="checkbox" id="admin" className="px-4 py-3 rounded-lg border border-gray-300" />

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import localforage from "localforage";
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Saly from '../assets/Saly-1.png';
@@ -30,13 +31,20 @@ export default function Login(){
 
             
             if (response.status === 200) {
+
                 const { tokens, user } = response.data.data;
-                console.log({tokens, user}, response.data.data);
+
               if (tokens) {
+
                 const authToken = tokens.accessToken;
+
                 const refreshToken = tokens.refreshToken;
-      
-                console.log(`Login time auth token: ${authToken}`);
+
+                await localforage.setItem('authToken', authToken);
+
+                await localforage.setItem('refreshToken', refreshToken);
+                
+                await localforage.setItem('user', user);
 
                 setAuth({user, authToken, refreshToken});
       
@@ -45,10 +53,7 @@ export default function Login(){
             }
           } catch(error){
             console.error(error);
-            // setError("root.random", {
-            //   type: "random",
-            //   message:`User with email ${formData.email} is not found`,
-            // })
+           
         }
     }
 
