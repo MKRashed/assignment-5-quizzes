@@ -5,6 +5,7 @@ import Registration from "./page/Register";
 import QuizDetails from "./QuizDetails";
 import Result from "./Result";
 import PrivateRoutes from "./routes/PrivateRoutes";
+import LeaderBoard from "./LeaderBoard";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route element={<Home />} path="/" exact />
         <Route element={<Result />} path="/result/:quizId" />
         <Route path="/quiz-details/:quizId" element={<QuizDetails />} />
+        <Route path="/leader-board/:quizId" element={<LeaderBoard />} />
       </Route>
       <Route element={<Login />} path="/login" />
       <Route element={<Registration />} path="/register" />

@@ -1,6 +1,32 @@
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import Avatar from "./assets/avater.webp";
+import useAxios from "./hooks/useAxios";
 
 export default function LeaderBoard(){
+
+  const { api } = useAxios();
+  const [stats, setStats] = useState({});
+  const [attempts, setAttempts] = useState([]);
+  const { quizId } = useParams(); 
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const response = await api.get(`api/quizzes/${quizId}/attempts`);
+        const { quiz, stats, attempts } = response.data?.data;
+        setStats(stats);
+        setAttempts(attempts);
+        
+        
+      } catch (error) {
+        console.error("Error fetching quizzes:", error);
+      }
+    };
+  
+    fetchLeaderboard();
+  }, []); 
+
     return (
         <main className="min-h-[calc(100vh-50px)] flex items-center justify-center">
         <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl overflow-hidden">
