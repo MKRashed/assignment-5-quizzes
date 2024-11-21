@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Avatar from "./assets/avater.webp";
 import { useAuth } from "./hooks/useAuth";
 import useAxios from "./hooks/useAxios";
 
 
 export default function QuizDetails(){
+    const navigate = useNavigate();
     const { quizId } = useParams(); 
     const { auth } = useAuth();
     const { api } = useAxios();
@@ -66,8 +67,10 @@ export default function QuizDetails(){
         const response = await api.post(`api/quizzes/${quizId}/attempt`, {
             answers: answers
         });
-        const result = response.data;
-        console.log(result);
+
+        if(response.status === 200){
+            navigate(`/result/${quizId}`)
+        }
         
       };
 
@@ -136,17 +139,19 @@ export default function QuizDetails(){
                                 className="w-1/2 text-center ml-auto block bg-indigo-800 text-white py-2 px-4 rounded-md hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mb-6 font-semibold my-8">
                                 Previous
                             </button> */}
-                            <button 
-                                onClick={nextQuestion}
-                                disabled={currentQuestionIndex === questions.length - 1}
-                                className="w-1/2 text-center ml-auto block bg-primary text-white py-2 px-4 rounded-md hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mb-6 font-semibold my-8">
-                                Next
-                            </button>
-                            <button 
-                                onClick={handleSubmit}
-                                className="w-1/2 text-center ml-auto block bg-primary text-white py-2 px-4 rounded-md hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mb-6 font-semibold my-8">
-                                Submit
-                            </button>
+                            
+                            { currentQuestionIndex !== questions.length - 1 ? 
+                            (<button 
+                                    onClick={nextQuestion}
+                                    disabled={currentQuestionIndex === questions.length - 1}
+                                    className="w-1/2 text-center ml-auto block bg-primary text-white py-2 px-4 rounded-md hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mb-6 font-semibold my-8">
+                                    Next
+                                </button>) : (<button 
+                                    onClick={handleSubmit}
+                                    className="w-1/2 text-center ml-auto block bg-primary text-white py-2 px-4 rounded-md hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mb-6 font-semibold my-8">
+                                    Submit
+                                </button>)}
+                            
                         </div>
                     </div>
                 </div>
