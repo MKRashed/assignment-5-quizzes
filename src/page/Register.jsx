@@ -1,9 +1,9 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import LogoWhite from '../assets/logo-white.svg';
 import Logo from "../assets/logo.svg";
 import Saly from "../assets/Saly-1.png";
-import axios from 'axios';
 
 
 export default function Register(){
@@ -14,6 +14,12 @@ export default function Register(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirm_password, setConfirmPassword] = useState('');
+    
+    const [role, setRole] = useState('');
+    
+    const handleCheckboxChange = (e) => {
+        setRole(e.target.checked ? 'admin' : '');
+    };
 
     const handleSubmit =  async(event) => {
         
@@ -32,14 +38,11 @@ export default function Register(){
             full_name: name,
             email: email,
             password: password,
+            role: role,
         };
 
         try{
             const response = await axios.post(`${import.meta.env.VITE_SERVER_BASE_URL}/auth/register`, formData);
-
-            console.log({response});
-            
-            
             if (response.status === 201) {
                 navigate("/login");
             }
@@ -132,7 +135,14 @@ export default function Register(){
                         )}
 
                     <div className="mb-6 flex gap-2 items-center">
-                        <input type="checkbox" id="admin" className="px-4 py-3 rounded-lg border border-gray-300" />
+                        <input
+                            type="checkbox"
+                            id="admin"
+                            value="admin"
+                            checked={role === 'admin'}
+                            onChange={handleCheckboxChange}
+                            className="px-4 py-3 rounded-lg border border-gray-300"
+                        />
                         <label htmlFor="admin" className="block ">Register as Admin</label>
                     </div>
 

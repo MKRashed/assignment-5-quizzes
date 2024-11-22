@@ -17,6 +17,12 @@ export default function Login(){
 
     const navigate = useNavigate();
 
+    const [role, setRole] = useState('');
+
+    const handleCheckboxChange = (e) => {
+        setRole(e.target.checked ? 'admin' : '');
+    };
+
     const handleSubmit = async (event) => {
 
         event.preventDefault();
@@ -47,8 +53,12 @@ export default function Login(){
                 await localforage.setItem('user', user);
 
                 setAuth({user, authToken, refreshToken});
-      
-                navigate("/");
+
+                if(role === 'admin'){
+                    navigate('/admin/dashboard');
+                }else {
+                    navigate("/");
+                }
               }
             }
           } catch(error){
@@ -109,7 +119,14 @@ export default function Login(){
                         value={password} onChange={(e) => setPassword(e.target.value)} />
                     </div>
                     <div className="mb-6 flex gap-2 items-center">
-                        <input type="checkbox" id="admin" className="px-4 py-3 rounded-lg border border-gray-300" />
+                         <input
+                            type="checkbox"
+                            id="admin"
+                            value="admin"
+                            checked={role === 'admin'}
+                            onChange={handleCheckboxChange}
+                            className="px-4 py-3 rounded-lg border border-gray-300"
+                        />
                         <label htmlFor="admin" className="block ">Login as Admin</label>
                     </div>
                         <button 

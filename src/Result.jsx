@@ -129,7 +129,7 @@ export default function Result(){
     
                   <NavLink to={`/leader-board/${quiz?.id}`}
                     className=" bg-secondary py-3 rounded-md hover:bg-secondary/90 transition-colors text-lg font-medium underline text-white">
-                    View Leaderboard dd
+                    View Leaderboard
                   </NavLink>
                 </div>
     

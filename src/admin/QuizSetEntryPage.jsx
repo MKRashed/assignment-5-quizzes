@@ -1,5 +1,35 @@
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useParams } from "react-router-dom";
+import useAxios from "../hooks/useAxios";
+
 export default function QuizSetEntryPage(){
+
+    const {api} = useAxios();
+
+    const [status, setStatus] = useState('');
+
+    const quizId = useParams().quizId;
+
+    console.log({quizId});
+    
+
+    const updateQuiz = async (e) => {
+
+        setStatus(e.target.checked ? 'published' : '');
+
+        try {
+          const response = await api.patch(`api/admin/quizzes/${quizId}`,{
+            status:status,
+          });
+          console.log(response);
+          
+          
+        } catch (error) {
+          console.error("Error fetching quizzes:", error);
+        }
+    };
+    
+
     return (
         <>
             <div className="md:flex-grow px-4 sm:px-6 lg:px-8 py-8">
@@ -24,6 +54,17 @@ export default function QuizSetEntryPage(){
                 <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-8 lg:gap-12">
                     {/* <!-- Left Column --> */}
                     <div className="">
+                    <div className="mb-6 flex gap-2 items-center">
+                        <input
+                            type="checkbox"
+                            id="admin"
+                            value="admin"
+                            checked={status === 'published'}
+                            onClick={updateQuiz}
+                            className="px-4 py-3 rounded-lg border border-gray-300"
+                        />
+                        <label htmlFor="admin" className="block ">Register as Admin</label>
+                    </div>
                     <h2 className="text-3xl font-bold mb-4">Binary Tree Quiz</h2>
                     <div className="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded-full inline-block mb-4">
                         Total number of questions : 1

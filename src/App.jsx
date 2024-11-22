@@ -1,16 +1,26 @@
 import { Route, Routes } from "react-router-dom";
+import QuizSetPage from './admin//QuizSetPage';
+import Dashboard from './admin/Dashboard';
+import QuizQuestionEntry from './admin/QuizSetEntryPage';
 import Home from "./HomePage";
+import LeaderBoard from "./LeaderBoard";
 import Login from "./page/Login";
 import Registration from "./page/Register";
 import QuizDetails from "./QuizDetails";
 import Result from "./Result";
+import AdminRoutes from "./routes/AdminRoutes";
 import PrivateRoutes from "./routes/PrivateRoutes";
-import LeaderBoard from "./LeaderBoard";
 
 function App() {
   return (
     <>
     <Routes>
+      <Route element={<AdminRoutes />} path="/admin/">
+        <Route element={<Dashboard />} path="dashboard" />
+        <Route element={<QuizSetPage />} path="quiz-set" />
+        <Route element={<QuizQuestionEntry />} path="quiz-questions/:quizId" />
+    </Route>
+
       <Route element={<PrivateRoutes />}>
         <Route element={<Home />} path="/" exact />
         <Route element={<Result />} path="/result/:quizId" />
