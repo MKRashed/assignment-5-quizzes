@@ -11,6 +11,7 @@ export default function QuizDetails(){
     const { auth } = useAuth();
     const { api } = useAxios();
     const [questions, setQuestions] = useState([]);
+    const [shuffledOptions, setShuffledOptions] = useState([]);
     const [quiz, setQuiz] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState({});
@@ -34,6 +35,7 @@ export default function QuizDetails(){
              
             if (Array.isArray(updateQuizzes.questions)) {
               setQuestions(updateQuizzes.questions);
+              setShuffledOptions(shuffleArray(updateQuizzes.questions[currentQuestionIndex]?.options))
             }
           } catch (error) {
             console.error("Error fetching quizzes:", error);
@@ -43,16 +45,24 @@ export default function QuizDetails(){
         fetchQuizzes();
       }, []); 
 
-     const nextQuestion = () => {
-        if (currentQuestionIndex < questions.length - 1) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
-          }
-      }
-     const prevQuestion = () => {
-        if (currentQuestionIndex < questions.length - 1) {
-            setCurrentQuestionIndex(currentQuestionIndex - 1);
-          }
-      }
+    const shuffleArray = (array) => {
+        return array
+            .map((value) => ({ value, sort: Math.random() }))
+            .sort((a, b) => a.sort - b.sort)
+            .map(({ value }) => value);
+        };
+
+       
+    const nextQuestion = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+        }
+    }
+    const prevQuestion = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+        setCurrentQuestionIndex(currentQuestionIndex - 1);
+        }
+    }
 
     const currentQuestion = questions[currentQuestionIndex];
 
@@ -118,7 +128,7 @@ export default function QuizDetails(){
                         </div>
                         <div className="grid grid-cols-2 gap-4">
 
-                        {currentQuestion?.options?.map((option, index) => (
+                        {  shuffledOptions?.map((option, index) => (
                                 <label key={index} className="flex items-center space-x-3 py-3 px-4 bg-primary/5 rounded-md text-lg">
                                 <input 
                                     type="checkbox" 
