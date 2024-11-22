@@ -85,7 +85,7 @@ export default function QuizDetails(){
       };
 
     return (
-        <div className="max-w-8xl mx-auto h-[calc(100vh-10rem)]">
+        <div className="max-w-7xl mx-auto h-[calc(100vh-10rem)]">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 h-full">
                 {/* <!-- Left Column --> */}
                 <div className="lg:col-span-1 bg-white rounded-md p-6 h-full flex flex-col">

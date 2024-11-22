@@ -1,4 +1,4 @@
-import localforage from 'localforage';
+
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import LogoWhite from "./assets/logo-white.svg";
@@ -7,7 +7,6 @@ import useAxios from "./hooks/useAxios";
 
 
 export default function Result(){
-  const user = localforage.getItem('user');
   const { api } = useAxios();
   const [submitted_answers, setSubmittedAnswers] = useState([]);
   const [correct_answers, setCorrectAnswers] = useState([]);
