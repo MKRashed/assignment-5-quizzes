@@ -12,10 +12,7 @@ const useAxios = () => {
     const requestIntercept = api.interceptors.request.use(
       async (config) => {
         const token = await localforage.getItem('authToken');
-        console.log({token});
-        
         const authToken = auth?.authToken || token;
-
         if (authToken) {
           config.headers.Authorization = `Bearer ${authToken}`;
         }
@@ -37,8 +34,6 @@ const useAxios = () => {
           try {
             const localToken = await localforage.getItem('refreshToken');
             const refreshToken = auth?.refreshToken || localToken;
-            console.log({refreshToken});
-            
             if (!refreshToken) {
               setAuth({ authToken: null, refreshToken: null });
               return Promise.reject(error);

@@ -3,16 +3,9 @@ import { NavLink, useParams } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
 
 export default function QuizSetEntryPage(){
-
     const {api} = useAxios();
-
     const [status, setStatus] = useState('');
-
     const quizId = useParams().quizId;
-
-    console.log({quizId});
-    
-
     const updateQuiz = async (e) => {
 
         setStatus(e.target.checked ? 'published' : '');
@@ -21,9 +14,6 @@ export default function QuizSetEntryPage(){
           const response = await api.patch(`api/admin/quizzes/${quizId}`,{
             status:status,
           });
-          console.log(response);
-          
-          
         } catch (error) {
           console.error("Error fetching quizzes:", error);
         }
