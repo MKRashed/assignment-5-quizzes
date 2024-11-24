@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import Footer from "./Footer";
 import HeroSection from "./HeroSection";
 import QuizCard from "./QuizCard";
+import { useAuth } from "./hooks/useAuth";
 import useAxios from "./hooks/useAxios";
-
 export default function HomePage() {
+  const { auth } = useAuth();
   const [quizzes, setQuizzes] = useState([]);
   const { api } = useAxios();
 
@@ -27,7 +28,7 @@ export default function HomePage() {
   return (
     <div className="bg-[#F5F3FF] min-h-screen">
       <div className="max-w-7xl mx-auto  py-3">
-        <HeroSection />
+        {auth.authToken && <HeroSection />}
         {quizzes.length > 0 ? (
           quizzes.map((quiz, index) => <QuizCard key={index} quiz={quiz} />)
         ) : (

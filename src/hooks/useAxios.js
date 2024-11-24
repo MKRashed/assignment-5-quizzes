@@ -1,8 +1,7 @@
-import axios from 'axios';
-import { useEffect } from 'react';
-import { api } from '../api'; // Assuming api is the axios instance
-import { useAuth } from './useAuth'; // Assuming useAuth provides the auth context
-import localforage from "localforage";
+import axios from "axios";
+import { useEffect } from "react";
+import { api } from "../api";
+import { useAuth } from "./useAuth";
 
 const useAxios = () => {
   const { auth, setAuth } = useAuth();
@@ -11,8 +10,7 @@ const useAxios = () => {
     // Add a request interceptor
     const requestIntercept = api.interceptors.request.use(
       async (config) => {
-        const token = await localforage.getItem('authToken');
-        const authToken = auth?.authToken || token;
+        const authToken = auth?.authToken;
         if (authToken) {
           config.headers.Authorization = `Bearer ${authToken}`;
         }
@@ -32,8 +30,7 @@ const useAxios = () => {
           originalRequest._retry = true;
 
           try {
-            const localToken = await localforage.getItem('refreshToken');
-            const refreshToken = auth?.refreshToken || localToken;
+            const refreshToken = auth?.refreshToken;
             if (!refreshToken) {
               setAuth({ authToken: null, refreshToken: null });
               return Promise.reject(error);
@@ -52,7 +49,7 @@ const useAxios = () => {
             originalRequest.headers.Authorization = `Bearer ${token}`;
             return axios(originalRequest);
           } catch (refreshError) {
-            console.error('Token refresh failed', refreshError);
+            console.error("Token refresh failed", refreshError);
             setAuth({ authToken: null, refreshToken: null });
             return Promise.reject(refreshError);
           }
