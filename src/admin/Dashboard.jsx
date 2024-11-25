@@ -22,10 +22,6 @@ export default function Dashboard(){
         fetchQuizzes();
       }, []);
 
-      console.log({quizzes});
-      
-    
-
     return (
         <div className="flex-grow p-10">
             <header className="mb-8">
