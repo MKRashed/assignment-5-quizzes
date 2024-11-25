@@ -28,11 +28,15 @@ export default function HomePage() {
     <div className="bg-[#F5F3FF] min-h-screen">
       <div className="max-w-7xl mx-auto  py-3">
         <HeroSection />
-        {quizzes.length > 0 ? (
-          quizzes.map((quiz, index) => <QuizCard key={index} quiz={quiz} />)
-        ) : (
-          <p>No quizzes available</p>
-        )}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {quizzes.length > 0 ? (
+            quizzes.map((quiz, index) => <QuizCard key={index} quiz={quiz} />)
+          ) : (
+            <p>No quizzes available</p>
+          )}
+        </div>
+        
         <Footer />
       </div>
     </div>

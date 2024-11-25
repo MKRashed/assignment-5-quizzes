@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 export default function QuizCard({ quiz }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div>
       <NavLink
         to={quiz?.is_attempted ? `/result/${quiz?.id}` : `/quiz-details/${quiz?.id}`}
         className="rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow max-h-[450px] relative group cursor-pointer"
@@ -19,7 +19,7 @@ export default function QuizCard({ quiz }) {
               <p className="text-center">Click to view your leaderboard</p>
             </>
 
-          ) :'' 
+          ) :(<p>Start Quiz</p>) 
           } 
           </div>
         </div>
